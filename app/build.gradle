@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'org.greenrobot.greendao' // 这一行一定要处于第二行的位置，如果是其他位置都有可能报错
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'com.jakewharton.butterknife'
@@ -50,4 +51,8 @@ dependencies {
 
     implementation 'com.jakewharton:butterknife:10.2.3'
     kapt 'com.jakewharton:butterknife-compiler:10.2.3'
+
+    implementation 'org.greenrobot:greendao:3.3.0' // add library
+    implementation 'org.greenrobot:greendao-generator:3.3.0'
+    implementation 'io.github.yuweiguocn:GreenDaoUpgradeHelper:v2.2.1'
 }
