@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ninebox.NineBox">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.example.littlestep.ninebox.CardView
+            android:id="@+id/view_cause"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:background="@color/teal_700"
+            android:gravity="center_horizontal"
+            android:padding="5dp"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:cardTitle="事业" />
+
+        <com.example.littlestep.ninebox.CardView
+            android:id="@+id/view_healthy"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:background="@color/teal_700"
+            android:gravity="center_horizontal"
+            android:padding="5dp"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:cardTitle="健康" />
+
+        <com.example.littlestep.ninebox.CardView
+            android:id="@+id/view_money"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:background="@color/teal_700"
+            android:gravity="center_horizontal"
+            android:padding="5dp"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:cardTitle="理财" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.example.littlestep.ninebox.CardView
+            android:id="@+id/view_contacts"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:background="@color/teal_700"
+            android:gravity="center_horizontal"
+            android:padding="5dp"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:cardTitle="人脉" />
+
+        <TextView
+            android:id="@+id/view_today"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:background="@color/teal_700"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="今天你要完成的事"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <com.example.littlestep.ninebox.CardView
+            android:id="@+id/view_family"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:background="@color/teal_700"
+            android:gravity="center_horizontal"
+            android:padding="5dp"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:cardTitle="家庭" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.example.littlestep.ninebox.CardView
+            android:id="@+id/view_study"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:background="@color/teal_700"
+            android:gravity="center_horizontal"
+            android:padding="5dp"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:cardTitle="学习" />
+
+        <com.example.littlestep.ninebox.CardView
+            android:id="@+id/view_leisure"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:background="@color/teal_700"
+            android:gravity="center_horizontal"
+            android:padding="5dp"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:cardTitle="休闲" />
+
+        <com.example.littlestep.ninebox.CardView
+            android:id="@+id/view_heart"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:background="@color/teal_700"
+            android:gravity="center_horizontal"
+            android:padding="5dp"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:cardTitle="心灵" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@color/teal_700"
+        android:gravity="center"
+        android:text="不积跬步,无以致千里;不积小流,无以成江海"
+        android:textColor="@color/white" />
+
+
+</LinearLayout>
