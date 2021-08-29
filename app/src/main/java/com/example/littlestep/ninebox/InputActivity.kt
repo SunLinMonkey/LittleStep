@@ -7,13 +7,13 @@ import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import butterknife.BindView
-import butterknife.ButterKnife
 import butterknife.OnClick
-import com.example.littlestep.base.BaseActivity
 import com.example.littlestep.R
-import com.example.littlestep.ninebox.NineBox.TYPE_TAG
+import com.example.littlestep.base.BaseActivity
+import com.example.littlestep.common.NineBoxConstants
 
 /**
+ * 内容输入界面
  * create on 2021/7/20 22:10
  * Email:923998007@qq.com
  * @author lin
@@ -22,9 +22,14 @@ class InputActivity : BaseActivity() {
 
 
     val TYPE_MAP = mapOf(
-        TYPE_TAG.CAUSE to "事业", TYPE_TAG.HEALTHY to "健康", TYPE_TAG.MONEY to "理财",
-        TYPE_TAG.CONTACTS to "人脉", TYPE_TAG.FAMILY to "家庭", TYPE_TAG.STUDY to "学习",
-        TYPE_TAG.LEISURE to "休闲", TYPE_TAG.HEART to "心灵"
+        NineBoxConstants.NineBoxItemKey.CAUSE to "事业",
+        NineBoxConstants.NineBoxItemKey.HEALTHY to "健康",
+        NineBoxConstants.NineBoxItemKey.MONEY to "理财",
+        NineBoxConstants.NineBoxItemKey.CONTACTS to "人脉",
+        NineBoxConstants.NineBoxItemKey.FAMILY to "家庭",
+        NineBoxConstants.NineBoxItemKey.STUDY to "学习",
+        NineBoxConstants.NineBoxItemKey.LEISURE to "休闲",
+        NineBoxConstants.NineBoxItemKey.HEART to "心灵"
     )
 
     companion object INTENT_KEY {
@@ -44,8 +49,6 @@ class InputActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_input)
-//        ButterKnife.bind(this)
     }
 
     override fun getLayoutRes(): Int {
@@ -59,7 +62,7 @@ class InputActivity : BaseActivity() {
         val content = intent.getStringExtra(KEY_CONTENT)
         currentTag = intent.getStringExtra(KEY_TAG)?.toString().toString()
         tagTitle.text = TYPE_MAP[currentTag];
-
+        edtInput.setText(content)
 
     }
 

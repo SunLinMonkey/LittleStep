@@ -1,6 +1,8 @@
 package com.example.littlestep.dao
 
 import android.content.Context
+import android.database.sqlite.SQLiteDatabase
+import android.util.Log
 import com.example.littlestep.dao.entity.DaoMaster
 import com.example.littlestep.dao.entity.DaoSession
 
@@ -9,9 +11,9 @@ import com.example.littlestep.dao.entity.DaoSession
  * Email:923998007@qq.com
  * @author lin
  */
-class DatabaseManager {
-    private val DB_NAME = "test.db"
-    private var mDevOpenHelper: DaoMaster.DevOpenHelper? = null
+open class DatabaseManager {
+    private val DB_NAME = "myStep.db"
+    private var mDevOpenlper: DaoMaster.DevOpenHelper? = null
     private var mDaoMaster: DaoMaster? = null
     private var mDaoSession: DaoSession? = null
 
@@ -24,13 +26,41 @@ class DatabaseManager {
     }
 
     open fun initDao(context: Context) {
-        val helper = DaoMaster.DevOpenHelper(context, "User")//创建的数据库名。
-        val db = helper.writableDb
+        Log.e("9527", "initDao: " + this.javaClass.simpleName)
 
-        mDaoSession = DaoMaster(db).newSession();
+        mDevOpenlper = DaoMaster.DevOpenHelper(
+            DatabaseContext(context, "/LinPro/Step"),
+            DB_NAME
+        )//创建的数据库名。
     }
 
-    //
-    init {
+    fun getReadableDataBase(context: Context): SQLiteDatabase? {
+        return mDevOpenlper?.readableDatabase
+    }
+
+    fun getWriteableDataBase(context: Context): SQLiteDatabase? {
+        return mDevOpenlper?.writableDatabase
+    }
+
+    fun getDaoMaster(context: Context): DaoMaster? {
+        if (null == mDaoMaster) {
+            synchronized(DatabaseManager::class) {
+                if (null == mDaoMaster) {
+                    mDaoMaster = DaoMaster(getWriteableDataBase(context))
+                }
+            }
+        }
+        return mDaoMaster
+    }
+
+    fun getDaoSession(context: Context): DaoSession {
+        if (null == mDaoSession) {
+            synchronized(DatabaseManager::class) {
+                if (null == mDaoSession) {
+                    mDaoSession = getDaoMaster(context)?.newSession()
+                }
+            }
+        }
+        return mDaoSession!!
     }
 }

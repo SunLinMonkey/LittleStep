@@ -4,6 +4,7 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 
 import java.util.Date;
+
 import org.greenrobot.greendao.annotation.Generated;
 
 /**
@@ -15,7 +16,7 @@ import org.greenrobot.greendao.annotation.Generated;
 @Entity
 public class ConfigGlobal {
     @Id
-    private int id;
+    private Long id;
     private String configKey;
     private String configValue;
 
@@ -30,9 +31,9 @@ public class ConfigGlobal {
     private Date updateTime;
 
 
-    @Generated(hash = 63524207)
-    public ConfigGlobal(int id, String configKey, String configValue,
-            Date createTime, Date updateTime) {
+    @Generated(hash = 310930972)
+    public ConfigGlobal(Long id, String configKey, String configValue,
+                        Date createTime, Date updateTime) {
         this.id = id;
         this.configKey = configKey;
         this.configValue = configValue;
@@ -44,14 +45,6 @@ public class ConfigGlobal {
     public ConfigGlobal() {
     }
 
-
-    public int getId() {
-        return this.id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getConfigKey() {
         return this.configKey;
@@ -84,4 +77,14 @@ public class ConfigGlobal {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+
 }

@@ -1,24 +1,28 @@
-package com.example.littlestep.dao.entity;
+package com.example.littlestep.dao.entity.nineBox;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Generated;
 
 import java.util.Date;
 
-import org.greenrobot.greendao.annotation.Generated;
-
 /**
- * create on 2021/7/25 17:10
+ * 九宫格主信息
+ * create on 2021/7/26 21:16
  * Email:923998007@qq.com
  *
  * @author lin
  */
-@Entity
-public class ConfigNineBox {
-    @Id
+@Entity(nameInDb = "NineBoxMain")
+public class NineBoxHolderEntity {
+
+    @Id(autoincrement = true)
     private Long id;
-    private String configKey;
-    private String configValue;
+
+    /**
+     * 每日生成的唯一标识符，只与日期和用户有关
+     */
+    private String recordKey;
 
     /**
      * 创建时间
@@ -31,35 +35,26 @@ public class ConfigNineBox {
     private Date updateTime;
 
 
-    @Generated(hash = 257570308)
-    public ConfigNineBox(Long id, String configKey, String configValue,
-                         Date createTime, Date updateTime) {
+    @Generated(hash = 1907666074)
+    public NineBoxHolderEntity(Long id, String recordKey, Date createTime,
+                               Date updateTime) {
         this.id = id;
-        this.configKey = configKey;
-        this.configValue = configValue;
+        this.recordKey = recordKey;
         this.createTime = createTime;
         this.updateTime = updateTime;
     }
 
-    @Generated(hash = 636614705)
-    public ConfigNineBox() {
+    @Generated(hash = 1523645318)
+    public NineBoxHolderEntity() {
     }
 
 
-    public String getConfigKey() {
-        return this.configKey;
+    public String getRecordKey() {
+        return this.recordKey;
     }
 
-    public void setConfigKey(String configKey) {
-        this.configKey = configKey;
-    }
-
-    public String getConfigValue() {
-        return this.configValue;
-    }
-
-    public void setConfigValue(String configValue) {
-        this.configValue = configValue;
+    public void setRecordKey(String recordKey) {
+        this.recordKey = recordKey;
     }
 
     public Date getCreateTime() {
