@@ -81,5 +81,13 @@ public class NineBoxHolderEntity {
         return this.id;
     }
 
-
+    @Override
+    public String toString() {
+        return "NineBoxHolderEntity{" +
+                "id=" + id +
+                ", recordKey='" + recordKey + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
+    }
 }

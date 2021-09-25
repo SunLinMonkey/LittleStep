@@ -20,10 +20,6 @@ import org.greenrobot.greendao.annotation.Property;
  */
 @Entity(nameInDb = "NineBoxDetail")
 public class NineBoxDetailEntity {
-//    ,
-//    indexes = {
-//        @Index(value = "recordKey DESC, itemKey DESC", unique = true)
-//    }
 
     @Id(autoincrement = true)
     private Long id;
@@ -32,14 +28,12 @@ public class NineBoxDetailEntity {
      * 每日生成的唯一标识符，只与日期和用户有关
      */
     @Property(nameInDb = "recordKey")
-//    @Index(unique = true)
     private String recordKey;
 
     /**
      * 九宫格,格子的key
      */
     @Property(nameInDb = "itemKey")
-//    @Index(unique = true)
     private String itemKey;
 
     /**
@@ -150,5 +144,19 @@ public class NineBoxDetailEntity {
 
     public Long getId() {
         return this.id;
+    }
+
+    @Override
+    public String toString() {
+        return "NineBoxDetailEntity{" +
+                "id=" + id +
+                ", recordKey='" + recordKey + '\'' +
+                ", itemKey='" + itemKey + '\'' +
+                ", itemValue='" + itemValue + '\'' +
+                ", status=" + status +
+                ", updateValueTime=" + updateValueTime +
+                ", crateTime=" + crateTime +
+                ", updateStatusTime=" + updateStatusTime +
+                '}';
     }
 }

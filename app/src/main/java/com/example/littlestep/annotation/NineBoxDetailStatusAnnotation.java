@@ -19,6 +19,7 @@ import java.lang.annotation.RetentionPolicy;
         NineBoxConstants.DetailStatus.BLANK,
         NineBoxConstants.DetailStatus.DOING,
         NineBoxConstants.DetailStatus.FINISH,
+        NineBoxConstants.DetailStatus.DROP,
 })
 @Retention(RetentionPolicy.SOURCE)
 public @interface NineBoxDetailStatusAnnotation {

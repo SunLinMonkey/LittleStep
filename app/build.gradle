@@ -51,6 +51,8 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+
     implementation 'com.jakewharton:butterknife:10.2.3'
     kapt 'com.jakewharton:butterknife-compiler:10.2.3'
 
@@ -58,12 +60,13 @@ dependencies {
     implementation 'org.greenrobot:greendao-generator:3.3.0'
     implementation 'io.github.yuweiguocn:GreenDaoUpgradeHelper:v2.2.1'
 
+    //https://github.com/getActivity/XXPermissions
     implementation 'com.github.getActivity:XXPermissions:12.0'
-//https://github.com/getActivity/XXPermissions
 
-    implementation 'com.github.GrenderG:Toasty:1.5.0' //https://github.com/GrenderG/Toasty
+    //https://github.com/GrenderG/Toasty
+    implementation 'com.github.GrenderG:Toasty:1.5.0'
 
     //https://github.com/li-xiaojun/XPopup
     implementation 'com.github.li-xiaojun:XPopup:2.5.15'
-//    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+
 }

@@ -2,12 +2,16 @@ package com.example.littlestep.ninebox
 
 import android.content.Context
 import android.content.res.TypedArray
+import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.ImageButton
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import com.example.littlestep.R
+import es.dmoral.toasty.Toasty
 
 /**
  * create on 2021/7/20 22:10
@@ -39,7 +43,11 @@ class CardView @JvmOverloads constructor(context: Context?, attrs: AttributeSet?
 
 
         ibtn_funtion.setOnClickListener {
-            onClickListener?.onCardViewFunctionClick(this)
+            if (TextUtils.isEmpty(tv_content_in_card.text)) {
+                Toasty.info(context, "请先输入计划！", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            onClickListener?.onCardViewFunctionClick(this, ibtn_funtion)
         }
         setTitle(this.title)
         setContent(this.content)
@@ -69,6 +77,6 @@ class CardView @JvmOverloads constructor(context: Context?, attrs: AttributeSet?
     }
 
     interface OnCardViewFunctionClickListener {
-        fun onCardViewFunctionClick(cardView: CardView)
+        fun onCardViewFunctionClick(cardView: CardView, funView: View)
     }
 }

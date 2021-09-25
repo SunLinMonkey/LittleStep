@@ -1,7 +1,5 @@
 package com.example.littlestep.ninebox
 
-import android.app.Activity
-import android.content.Intent
 import android.util.Log
 import android.view.View
 import android.widget.TextView
@@ -19,6 +17,9 @@ import com.example.littlestep.dao.entity.nineBox.NineBoxHolderEntity
 import com.example.littlestep.dao.entity.nineBox.NineBoxDetailEntity
 import com.example.littlestep.dao.entity.nineBox.NineBoxDetailEntityDao
 import com.example.littlestep.dao.entity.nineBox.NineBoxHolderEntityDao
+import com.example.littlestep.popwindow.NineBoxFuncAttachPopup
+import com.example.littlestep.popwindow.NineBoxFuncAttachPopup.OnClickTabListener
+import com.lxj.xpopup.XPopup
 import java.util.*
 
 /**
@@ -62,6 +63,9 @@ class NineBoxActivity : BaseActivity(), View.OnClickListener,
     private lateinit var recordKey: String
     private lateinit var recordEntity: NineBoxHolderEntity
 
+    /**
+     * 输入界面的onActivityResult回调
+     */
     private lateinit var registerForActivityResult: ActivityResultLauncher<ResultContract.PushData>
 
     override fun getLayoutRes(): Int {
@@ -70,7 +74,6 @@ class NineBoxActivity : BaseActivity(), View.OnClickListener,
 
 
     override fun initView() {
-
         view_cause.setOnCardViewFunctionClickListener(this)
         view_healthy.setOnCardViewFunctionClickListener(this)
         view_money.setOnCardViewFunctionClickListener(this)
@@ -97,8 +100,11 @@ class NineBoxActivity : BaseActivity(), View.OnClickListener,
             })
     }
 
+    /**
+     * 去输入界面
+     */
     private fun openInputView(tag: String, text: String) {
-        registerForActivityResult?.launch(ResultContract.PushData(tag, text))
+        registerForActivityResult.launch(ResultContract.PushData(tag, text))
     }
 
     /**
@@ -177,13 +183,8 @@ class NineBoxActivity : BaseActivity(), View.OnClickListener,
      * 输入界面返回，触发保存，只修改明细条目
      */
     private fun saveDetailRecord(currentTag: String?, content: String?) {
-        val recordDetail: NineBoxDetailEntity;
-        val list =
-            DatabaseManager.instance.getDaoSession(this).nineBoxDetailEntityDao.queryBuilder()
-                .where(
-                    NineBoxDetailEntityDao.Properties.RecordKey.eq(recordEntity.recordKey),
-                    NineBoxDetailEntityDao.Properties.ItemKey.eq(currentTag)
-                ).list()
+        val recordDetail: NineBoxDetailEntity
+        val list = getDetailInDatabase(currentTag)
 
         if (list == null || list.isEmpty()) {
             recordDetail = NineBoxDetailEntity()
@@ -202,8 +203,20 @@ class NineBoxActivity : BaseActivity(), View.OnClickListener,
         DatabaseManager.instance.getDaoSession(this).nineBoxDetailEntityDao.insertOrReplaceInTx(
             recordDetail
         )
+    }
+
+    /**
+     * 获取当前卡页的数据
+     */
+    private fun getDetailInDatabase(currentTag: String?): List<NineBoxDetailEntity>? {
+        return DatabaseManager.instance.getDaoSession(this).nineBoxDetailEntityDao.queryBuilder()
+            .where(
+                NineBoxDetailEntityDao.Properties.RecordKey.eq(recordEntity.recordKey),
+                NineBoxDetailEntityDao.Properties.ItemKey.eq(currentTag)
+            ).list()
 
     }
+
 
     @OnClick(
         R.id.view_cause,
@@ -216,6 +229,7 @@ class NineBoxActivity : BaseActivity(), View.OnClickListener,
         R.id.view_heart,
         R.id.view_today
     )
+
     override fun onClick(view: View) {
         Log.i("TAG", "点击事件")
         when (view.id) {
@@ -286,48 +300,106 @@ class NineBoxActivity : BaseActivity(), View.OnClickListener,
             DatabaseManager.instance.getDaoSession(this).nineBoxHolderEntityDao.queryBuilder()
                 .where(NineBoxHolderEntityDao.Properties.RecordKey.eq(recordKey)).list()
         for (nineBoxHolderEntity in list) {
-            Log.e(TAG, "showRecordToday: $nineBoxHolderEntity")
+            Log.e(TAG, "showRecordToday: ${nineBoxHolderEntity.toString()}")
+        }
+
+
+        val list1 =
+            DatabaseManager.instance.getDaoSession(this).nineBoxDetailEntityDao.queryBuilder()
+                .where(
+                    NineBoxDetailEntityDao.Properties.RecordKey.eq(recordEntity.recordKey)
+                ).list()
+
+        for (nineBoxHolderEntity in list1) {
+            Log.e(TAG, "showRecordDetail: ${nineBoxHolderEntity.status}   ${nineBoxHolderEntity.itemKey}")
         }
     }
 
-    override fun onCardViewFunctionClick(cardView: CardView) {
+    /**
+     * 点击卡片下方的功能按钮
+     */
+    override fun onCardViewFunctionClick(cardView: CardView, funcView: View) {
         Log.e(TAG, "onCardViewFunctionClick: ${cardView.id}")
         when (cardView.id) {
             R.id.view_cause -> {
-                showFunctionPopWindow(NineBoxConstants.NineBoxItemKey.CAUSE)
+                showFunctionPopWindow(funcView, NineBoxConstants.NineBoxItemKey.CAUSE)
             }
 
             R.id.view_healthy -> {
-                showFunctionPopWindow(NineBoxConstants.NineBoxItemKey.HEALTHY)
+                showFunctionPopWindow(funcView, NineBoxConstants.NineBoxItemKey.HEALTHY)
             }
 
             R.id.view_money -> {
-                showFunctionPopWindow(NineBoxConstants.NineBoxItemKey.MONEY)
+                showFunctionPopWindow(funcView, NineBoxConstants.NineBoxItemKey.MONEY)
             }
 
             R.id.view_contacts -> {
-                showFunctionPopWindow(NineBoxConstants.NineBoxItemKey.CONTACTS)
+                showFunctionPopWindow(funcView, NineBoxConstants.NineBoxItemKey.CONTACTS)
             }
 
             R.id.view_family -> {
-                showFunctionPopWindow(NineBoxConstants.NineBoxItemKey.FAMILY)
+                showFunctionPopWindow(funcView, NineBoxConstants.NineBoxItemKey.FAMILY)
             }
 
             R.id.view_study -> {
-                showFunctionPopWindow(NineBoxConstants.NineBoxItemKey.STUDY)
+                showFunctionPopWindow(funcView, NineBoxConstants.NineBoxItemKey.STUDY)
             }
 
             R.id.view_leisure -> {
-                showFunctionPopWindow(NineBoxConstants.NineBoxItemKey.LEISURE)
+                showFunctionPopWindow(funcView, NineBoxConstants.NineBoxItemKey.LEISURE)
             }
 
             R.id.view_heart -> {
-                showFunctionPopWindow(NineBoxConstants.NineBoxItemKey.HEART)
+                showFunctionPopWindow(funcView, NineBoxConstants.NineBoxItemKey.HEART)
             }
         }
     }
 
-    private fun showFunctionPopWindow(cause: String) {
+    /**
+     * 显示卡片功能按钮
+     */
+    private fun showFunctionPopWindow(cardView: View, cause: String) {
+        XPopup.Builder(this).isDestroyOnDismiss(true)
+            .hasShadowBg(false).isViewMode(true).atView(cardView)
+            .asCustom(NineBoxFuncAttachPopup(this, object : OnClickTabListener {
+                override fun clickTab(id: Int) {
+                    dealCardFunction(id, cause)
+                }
+            })).show()
+    }
 
+    /**
+     * 处理卡片功能
+     */
+    private fun dealCardFunction(functionId: Int, cause: String) {
+        val detailInDatabase = getDetailInDatabase(cause)
+        val recordDetail = detailInDatabase?.get(0) as NineBoxDetailEntity
+
+        recordDetail.updateStatusTime = Date()
+        recordDetail.status = getCardMissionStatus(functionId)
+
+        DatabaseManager.instance.getDaoSession(this).nineBoxDetailEntityDao.insertOrReplaceInTx(
+            recordDetail
+        )
+    }
+
+    /**
+     * 返回点击页卡功能按钮后，应该赋予的页卡状态
+     */
+    private fun getCardMissionStatus(functionId: Int): Int {
+        when (functionId) {
+            NineBoxFuncAttachPopup.FINISH -> {
+                return NineBoxConstants.DetailStatus.FINISH
+            }
+
+            NineBoxFuncAttachPopup.DROP -> {
+                return NineBoxConstants.DetailStatus.DROP
+            }
+
+            NineBoxFuncAttachPopup.REOPEN -> {
+                return NineBoxConstants.DetailStatus.DOING
+            }
+        }
+        return NineBoxConstants.DetailStatus.DOING
     }
 }

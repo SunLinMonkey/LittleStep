@@ -24,6 +24,10 @@ public class NineBoxConstants {
          * 已完成
          */
         int FINISH = 2;
+        /**
+         * 舍弃
+         */
+        int DROP = 3;
     }
 
     public interface NineBoxItemKey {
