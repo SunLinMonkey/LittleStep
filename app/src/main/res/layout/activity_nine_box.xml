@@ -21,7 +21,6 @@
             android:layout_weight="1"
             android:background="@color/teal_700"
             android:gravity="center_horizontal"
-            android:padding="5dp"
             android:textColor="@color/white"
             android:textSize="20sp"
             app:cardTitle="事业" />
@@ -34,7 +33,6 @@
             android:layout_weight="1"
             android:background="@color/teal_700"
             android:gravity="center_horizontal"
-            android:padding="5dp"
             android:textColor="@color/white"
             android:textSize="20sp"
             app:cardTitle="健康" />
@@ -47,7 +45,6 @@
             android:layout_weight="1"
             android:background="@color/teal_700"
             android:gravity="center_horizontal"
-            android:padding="5dp"
             android:textColor="@color/white"
             android:textSize="20sp"
             app:cardTitle="理财" />
@@ -66,7 +63,6 @@
             android:layout_weight="1"
             android:background="@color/teal_700"
             android:gravity="center_horizontal"
-            android:padding="5dp"
             android:textColor="@color/white"
             android:textSize="20sp"
             app:cardTitle="人脉" />
@@ -79,7 +75,6 @@
             android:layout_weight="1"
             android:background="@color/teal_700"
             android:gravity="center"
-            android:padding="5dp"
             android:text="今天你要完成的事"
             android:textColor="@color/white"
             android:textSize="20sp" />
@@ -92,7 +87,6 @@
             android:layout_weight="1"
             android:background="@color/teal_700"
             android:gravity="center_horizontal"
-            android:padding="5dp"
             android:textColor="@color/white"
             android:textSize="20sp"
             app:cardTitle="家庭" />
@@ -111,7 +105,6 @@
             android:layout_weight="1"
             android:background="@color/teal_700"
             android:gravity="center_horizontal"
-            android:padding="5dp"
             android:textColor="@color/white"
             android:textSize="20sp"
             app:cardTitle="学习" />
@@ -124,7 +117,6 @@
             android:layout_weight="1"
             android:background="@color/teal_700"
             android:gravity="center_horizontal"
-            android:padding="5dp"
             android:textColor="@color/white"
             android:textSize="20sp"
             app:cardTitle="休闲" />
@@ -137,7 +129,6 @@
             android:layout_weight="1"
             android:background="@color/teal_700"
             android:gravity="center_horizontal"
-            android:padding="5dp"
             android:textColor="@color/white"
             android:textSize="20sp"
             app:cardTitle="心灵" />

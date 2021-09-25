@@ -5,6 +5,8 @@ import android.content.Intent
 import android.util.Log
 import android.view.View
 import android.widget.TextView
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.ActivityResultLauncher
 import butterknife.BindView
 import butterknife.OnClick
 import com.example.littlestep.base.BaseActivity
@@ -24,7 +26,8 @@ import java.util.*
  * Email:923998007@qq.com
  * @author lin
  */
-class NineBoxActivity : BaseActivity(), View.OnClickListener {
+class NineBoxActivity : BaseActivity(), View.OnClickListener,
+    CardView.OnCardViewFunctionClickListener {
 
 
     private val TAG = this.javaClass.simpleName;
@@ -59,32 +62,43 @@ class NineBoxActivity : BaseActivity(), View.OnClickListener {
     private lateinit var recordKey: String
     private lateinit var recordEntity: NineBoxHolderEntity
 
+    private lateinit var registerForActivityResult: ActivityResultLauncher<ResultContract.PushData>
+
     override fun getLayoutRes(): Int {
         return R.layout.activity_nine_box;
     }
 
-    private fun openInputView(tag: String, text: String) {
 
-        val intent = Intent(this, InputActivity::class.java)
-        //putExtra接受的是键值对，第一个参数是键，用于后面取值；第二个是真正要传递的数据
-        intent.putExtra(InputActivity.KEY_CONTENT, text)
-        intent.putExtra(InputActivity.KEY_TAG, tag)
-        startActivityForResult(intent, InputActivity.REQUEST_CODE_CARD_VIEW)
+    override fun initView() {
 
+        view_cause.setOnCardViewFunctionClickListener(this)
+        view_healthy.setOnCardViewFunctionClickListener(this)
+        view_money.setOnCardViewFunctionClickListener(this)
+        view_contacts.setOnCardViewFunctionClickListener(this)
+        view_family.setOnCardViewFunctionClickListener(this)
+        view_study.setOnCardViewFunctionClickListener(this)
+        view_leisure.setOnCardViewFunctionClickListener(this)
+        view_heart.setOnCardViewFunctionClickListener(this)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode != Activity.RESULT_OK) {
-            return
-        }
+    override fun initData() {
+        Log.e(TAG, "initData: ")
+        recordKey = RecordKeyMaker.createKey(Business.TYPE_NINE_BOX);
+        readRecord()
 
-        val content = data?.getStringExtra(InputActivity.KEY_CONTENT)
-        val currentTag = data?.getStringExtra(InputActivity.KEY_TAG)
-        Log.e(TAG, "onActivityResult: $content    $currentTag")
-        displayBackData(currentTag, content)
+        registerForActivityResult =
+            registerForActivityResult(ResultContract(), ActivityResultCallback {
+                if (it != null) {
+                    Log.e(TAG, "onActivityResult: ${it.missionTag}    ${it.missionText}")
+                    displayBackData(it.missionTag, it.missionText)
 
-        saveDetailRecord(currentTag, content)
+                    saveDetailRecord(it.missionTag, it.missionText)
+                }
+            })
+    }
+
+    private fun openInputView(tag: String, text: String) {
+        registerForActivityResult?.launch(ResultContract.PushData(tag, text))
     }
 
     /**
@@ -119,14 +133,6 @@ class NineBoxActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    override fun initView() {
-    }
-
-    override fun initData() {
-        Log.e(TAG, "initData: ")
-        recordKey = RecordKeyMaker.createKey(Business.TYPE_NINE_BOX);
-        readRecord()
-    }
 
     /**
      * 读取记录
@@ -282,5 +288,46 @@ class NineBoxActivity : BaseActivity(), View.OnClickListener {
         for (nineBoxHolderEntity in list) {
             Log.e(TAG, "showRecordToday: $nineBoxHolderEntity")
         }
+    }
+
+    override fun onCardViewFunctionClick(cardView: CardView) {
+        Log.e(TAG, "onCardViewFunctionClick: ${cardView.id}")
+        when (cardView.id) {
+            R.id.view_cause -> {
+                showFunctionPopWindow(NineBoxConstants.NineBoxItemKey.CAUSE)
+            }
+
+            R.id.view_healthy -> {
+                showFunctionPopWindow(NineBoxConstants.NineBoxItemKey.HEALTHY)
+            }
+
+            R.id.view_money -> {
+                showFunctionPopWindow(NineBoxConstants.NineBoxItemKey.MONEY)
+            }
+
+            R.id.view_contacts -> {
+                showFunctionPopWindow(NineBoxConstants.NineBoxItemKey.CONTACTS)
+            }
+
+            R.id.view_family -> {
+                showFunctionPopWindow(NineBoxConstants.NineBoxItemKey.FAMILY)
+            }
+
+            R.id.view_study -> {
+                showFunctionPopWindow(NineBoxConstants.NineBoxItemKey.STUDY)
+            }
+
+            R.id.view_leisure -> {
+                showFunctionPopWindow(NineBoxConstants.NineBoxItemKey.LEISURE)
+            }
+
+            R.id.view_heart -> {
+                showFunctionPopWindow(NineBoxConstants.NineBoxItemKey.HEART)
+            }
+        }
+    }
+
+    private fun showFunctionPopWindow(cause: String) {
+
     }
 }

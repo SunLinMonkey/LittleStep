@@ -32,13 +32,6 @@ class InputActivity : BaseActivity() {
         NineBoxConstants.NineBoxItemKey.HEART to "心灵"
     )
 
-    companion object INTENT_KEY {
-        val KEY_CONTENT = "content"
-        val KEY_TAG = "tag"
-
-        val REQUEST_CODE_CARD_VIEW = 1
-    }
-
     lateinit var currentTag: String;
 
     @BindView(R.id.tv_tag_tilte)
@@ -59,10 +52,12 @@ class InputActivity : BaseActivity() {
     }
 
     override fun initData() {
-        val content = intent.getStringExtra(KEY_CONTENT)
-        currentTag = intent.getStringExtra(KEY_TAG)?.toString().toString()
+
+        val content =
+            intent.getSerializableExtra(ResultContract.KEY_NINE_BOX_TO_MISSION_INPUT) as ResultContract.PushData
+        currentTag = content.missionTag;
         tagTitle.text = TYPE_MAP[currentTag];
-        edtInput.setText(content)
+        edtInput.setText(content.missionText)
 
     }
 
@@ -84,8 +79,10 @@ class InputActivity : BaseActivity() {
 
     private fun back() {
         val intent = Intent()
-        intent.putExtra(KEY_CONTENT, edtInput.text?.toString() ?: "")
-        intent.putExtra(KEY_TAG, currentTag)
+        intent.putExtra(
+            ResultContract.KEY_MISSION_INPUT_BACK_NINE_BOX,
+            ResultContract.BackData(currentTag, edtInput.text?.toString() ?: "")
+        )
         //setResult接受两个参数：第一个是用于向上一个Activity返回处理结果，一般是RESULT_OK或者RESULT_CANCELED
         //第二个是带有数据的intent传递过去。最后调用finish销毁。
         setResult(Activity.RESULT_OK, intent)
