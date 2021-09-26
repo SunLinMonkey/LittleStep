@@ -9,7 +9,6 @@
         android:layout_height="wrap_content"
         android:background="@color/teal_200"
         android:gravity="center"
-        android:text="这是标题"
         android:textColor="@color/white"
         android:textSize="22sp" />
 
@@ -28,7 +27,15 @@
         android:layout_above="@id/ibtn_funtion"
         android:layout_below="@id/tv_title_in_card"
         android:layout_marginBottom="10dp"
-        android:text="这是内容"
+        android:gravity="center"
         android:textColor="@color/white"
         android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/iv_status"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/ibtn_funtion"
+        android:layout_below="@id/tv_title_in_card"
+        android:padding="20dp" />
 </RelativeLayout>

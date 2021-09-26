@@ -3,6 +3,7 @@ package com.example.littlestep.ninebox
 import android.util.Log
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import butterknife.BindView
@@ -20,6 +21,7 @@ import com.example.littlestep.dao.entity.nineBox.NineBoxHolderEntityDao
 import com.example.littlestep.popwindow.NineBoxFuncAttachPopup
 import com.example.littlestep.popwindow.NineBoxFuncAttachPopup.OnClickTabListener
 import com.lxj.xpopup.XPopup
+import es.dmoral.toasty.Toasty
 import java.util.*
 
 /**
@@ -31,7 +33,7 @@ class NineBoxActivity : BaseActivity(), View.OnClickListener,
     CardView.OnCardViewFunctionClickListener {
 
 
-    private val TAG = this.javaClass.simpleName;
+    private val TAG = this.javaClass.simpleName
 
     @BindView(R.id.view_cause)
     lateinit var view_cause: CardView
@@ -86,16 +88,15 @@ class NineBoxActivity : BaseActivity(), View.OnClickListener,
 
     override fun initData() {
         Log.e(TAG, "initData: ")
-        recordKey = RecordKeyMaker.createKey(Business.TYPE_NINE_BOX);
+        recordKey = RecordKeyMaker.createKey(Business.TYPE_NINE_BOX)
         readRecord()
 
         registerForActivityResult =
             registerForActivityResult(ResultContract(), ActivityResultCallback {
                 if (it != null) {
                     Log.e(TAG, "onActivityResult: ${it.missionTag}    ${it.missionText}")
-                    displayBackData(it.missionTag, it.missionText)
-
-                    saveDetailRecord(it.missionTag, it.missionText)
+                    val saveDetailRecord = saveDetailRecord(it.missionTag, it.missionText)
+                    displayBackData(saveDetailRecord)
                 }
             })
     }
@@ -103,38 +104,64 @@ class NineBoxActivity : BaseActivity(), View.OnClickListener,
     /**
      * 去输入界面
      */
-    private fun openInputView(tag: String, text: String) {
-        registerForActivityResult.launch(ResultContract.PushData(tag, text))
+    private fun openInputView(tag: String, nineBoxDetailEntity: NineBoxDetailEntity?) {
+        when (nineBoxDetailEntity?.status) {
+
+            NineBoxConstants.DetailStatus.FINISH -> {
+                Toasty.info(this, "任务已完成，不能重新编辑", Toast.LENGTH_LONG).show()
+            }
+
+            NineBoxConstants.DetailStatus.DROP -> {
+                Toasty.info(this, "任务已放弃，请重新打开后编辑", Toast.LENGTH_LONG).show()
+            }
+
+            else -> {
+                registerForActivityResult.launch(
+                    ResultContract.PushData(
+                        tag,
+                        nineBoxDetailEntity?.itemValue ?: ""
+                    )
+                )
+            }
+        }
     }
 
     /**
      * 输入返回，结果分发到界面显示
      */
-    private fun displayBackData(currentTag: String?, content: String?) {
-        when (currentTag) {
+    private fun displayBackData(nineBoxDetailEntity: NineBoxDetailEntity) {
+        when (nineBoxDetailEntity.itemKey) {
             NineBoxConstants.NineBoxItemKey.CAUSE -> {
-                content?.toString()?.let { view_cause.setContent(it) }
+                nineBoxDetailEntity.itemValue?.toString()
+                    ?.let { view_cause.setNineBoxDetailEntity(nineBoxDetailEntity) }
             }
             NineBoxConstants.NineBoxItemKey.HEALTHY -> {
-                content?.toString()?.let { view_healthy.setContent(it) }
+                nineBoxDetailEntity.itemValue?.toString()
+                    ?.let { view_healthy.setNineBoxDetailEntity(nineBoxDetailEntity) }
             }
             NineBoxConstants.NineBoxItemKey.MONEY -> {
-                content?.toString()?.let { view_money.setContent(it) }
+                nineBoxDetailEntity.itemValue?.toString()
+                    ?.let { view_money.setNineBoxDetailEntity(nineBoxDetailEntity) }
             }
             NineBoxConstants.NineBoxItemKey.CONTACTS -> {
-                content?.toString()?.let { view_contacts.setContent(it) }
+                nineBoxDetailEntity.itemValue?.toString()
+                    ?.let { view_contacts.setNineBoxDetailEntity(nineBoxDetailEntity) }
             }
             NineBoxConstants.NineBoxItemKey.FAMILY -> {
-                content?.toString()?.let { view_family.setContent(it) }
+                nineBoxDetailEntity.itemValue?.toString()
+                    ?.let { view_family.setNineBoxDetailEntity(nineBoxDetailEntity) }
             }
             NineBoxConstants.NineBoxItemKey.STUDY -> {
-                content?.toString()?.let { view_study.setContent(it) }
+                nineBoxDetailEntity.itemValue?.toString()
+                    ?.let { view_study.setNineBoxDetailEntity(nineBoxDetailEntity) }
             }
             NineBoxConstants.NineBoxItemKey.LEISURE -> {
-                content?.toString()?.let { view_leisure.setContent(it) }
+                nineBoxDetailEntity.itemValue?.toString()
+                    ?.let { view_leisure.setNineBoxDetailEntity(nineBoxDetailEntity) }
             }
             NineBoxConstants.NineBoxItemKey.HEART -> {
-                content?.toString()?.let { view_heart.setContent(it) }
+                nineBoxDetailEntity.itemValue?.toString()
+                    ?.let { view_heart.setNineBoxDetailEntity(nineBoxDetailEntity) }
             }
         }
     }
@@ -164,7 +191,7 @@ class NineBoxActivity : BaseActivity(), View.OnClickListener,
                     NineBoxDetailEntityDao.Properties.RecordKey.eq(recordEntity.recordKey)
                 ).list()
 
-        list.forEach { displayBackData(it.itemKey, it.itemValue) }
+        list.forEach { displayBackData(it) }
 
     }
 
@@ -182,7 +209,7 @@ class NineBoxActivity : BaseActivity(), View.OnClickListener,
     /**
      * 输入界面返回，触发保存，只修改明细条目
      */
-    private fun saveDetailRecord(currentTag: String?, content: String?) {
+    private fun saveDetailRecord(currentTag: String?, content: String?): NineBoxDetailEntity {
         val recordDetail: NineBoxDetailEntity
         val list = getDetailInDatabase(currentTag)
 
@@ -203,6 +230,7 @@ class NineBoxActivity : BaseActivity(), View.OnClickListener,
         DatabaseManager.instance.getDaoSession(this).nineBoxDetailEntityDao.insertOrReplaceInTx(
             recordDetail
         )
+        return recordDetail;
     }
 
     /**
@@ -240,56 +268,56 @@ class NineBoxActivity : BaseActivity(), View.OnClickListener,
             R.id.view_cause -> {
                 openInputView(
                     NineBoxConstants.NineBoxItemKey.CAUSE,
-                    view_cause.getContent().toString()
+                    view_cause.getNineBoxDetailEntity()
                 );
             }
 
             R.id.view_healthy -> {
                 openInputView(
                     NineBoxConstants.NineBoxItemKey.HEALTHY,
-                    view_healthy.getContent().toString()
+                    view_healthy.getNineBoxDetailEntity()
                 );
             }
 
             R.id.view_money -> {
                 openInputView(
                     NineBoxConstants.NineBoxItemKey.MONEY,
-                    view_money.getContent().toString()
+                    view_money.getNineBoxDetailEntity()
                 );
             }
 
             R.id.view_contacts -> {
                 openInputView(
                     NineBoxConstants.NineBoxItemKey.CONTACTS,
-                    view_contacts.getContent().toString()
+                    view_contacts.getNineBoxDetailEntity()
                 );
             }
 
             R.id.view_family -> {
                 openInputView(
                     NineBoxConstants.NineBoxItemKey.FAMILY,
-                    view_family.getContent().toString()
+                    view_family.getNineBoxDetailEntity()
                 );
             }
 
             R.id.view_study -> {
                 openInputView(
                     NineBoxConstants.NineBoxItemKey.STUDY,
-                    view_study.getContent().toString()
+                    view_study.getNineBoxDetailEntity()
                 );
             }
 
             R.id.view_leisure -> {
                 openInputView(
                     NineBoxConstants.NineBoxItemKey.LEISURE,
-                    view_leisure.getContent().toString()
+                    view_leisure.getNineBoxDetailEntity()
                 );
             }
 
             R.id.view_heart -> {
                 openInputView(
                     NineBoxConstants.NineBoxItemKey.HEART,
-                    view_heart.getContent().toString()
+                    view_heart.getNineBoxDetailEntity()
                 );
             }
         }
@@ -311,7 +339,10 @@ class NineBoxActivity : BaseActivity(), View.OnClickListener,
                 ).list()
 
         for (nineBoxHolderEntity in list1) {
-            Log.e(TAG, "showRecordDetail: ${nineBoxHolderEntity.status}   ${nineBoxHolderEntity.itemKey}")
+            Log.e(
+                TAG,
+                "showRecordDetail: ${nineBoxHolderEntity.status}   ${nineBoxHolderEntity.itemKey}"
+            )
         }
     }
 
@@ -322,35 +353,35 @@ class NineBoxActivity : BaseActivity(), View.OnClickListener,
         Log.e(TAG, "onCardViewFunctionClick: ${cardView.id}")
         when (cardView.id) {
             R.id.view_cause -> {
-                showFunctionPopWindow(funcView, NineBoxConstants.NineBoxItemKey.CAUSE)
+                showFunctionPopWindow(cardView, funcView, NineBoxConstants.NineBoxItemKey.CAUSE)
             }
 
             R.id.view_healthy -> {
-                showFunctionPopWindow(funcView, NineBoxConstants.NineBoxItemKey.HEALTHY)
+                showFunctionPopWindow(cardView, funcView, NineBoxConstants.NineBoxItemKey.HEALTHY)
             }
 
             R.id.view_money -> {
-                showFunctionPopWindow(funcView, NineBoxConstants.NineBoxItemKey.MONEY)
+                showFunctionPopWindow(cardView, funcView, NineBoxConstants.NineBoxItemKey.MONEY)
             }
 
             R.id.view_contacts -> {
-                showFunctionPopWindow(funcView, NineBoxConstants.NineBoxItemKey.CONTACTS)
+                showFunctionPopWindow(cardView, funcView, NineBoxConstants.NineBoxItemKey.CONTACTS)
             }
 
             R.id.view_family -> {
-                showFunctionPopWindow(funcView, NineBoxConstants.NineBoxItemKey.FAMILY)
+                showFunctionPopWindow(cardView, funcView, NineBoxConstants.NineBoxItemKey.FAMILY)
             }
 
             R.id.view_study -> {
-                showFunctionPopWindow(funcView, NineBoxConstants.NineBoxItemKey.STUDY)
+                showFunctionPopWindow(cardView, funcView, NineBoxConstants.NineBoxItemKey.STUDY)
             }
 
             R.id.view_leisure -> {
-                showFunctionPopWindow(funcView, NineBoxConstants.NineBoxItemKey.LEISURE)
+                showFunctionPopWindow(cardView, funcView, NineBoxConstants.NineBoxItemKey.LEISURE)
             }
 
             R.id.view_heart -> {
-                showFunctionPopWindow(funcView, NineBoxConstants.NineBoxItemKey.HEART)
+                showFunctionPopWindow(cardView, funcView, NineBoxConstants.NineBoxItemKey.HEART)
             }
         }
     }
@@ -358,12 +389,12 @@ class NineBoxActivity : BaseActivity(), View.OnClickListener,
     /**
      * 显示卡片功能按钮
      */
-    private fun showFunctionPopWindow(cardView: View, cause: String) {
+    private fun showFunctionPopWindow(cardView: CardView, funcView: View, cause: String) {
         XPopup.Builder(this).isDestroyOnDismiss(true)
-            .hasShadowBg(false).isViewMode(true).atView(cardView)
+            .hasShadowBg(false).isViewMode(true).atView(funcView)
             .asCustom(NineBoxFuncAttachPopup(this, object : OnClickTabListener {
                 override fun clickTab(id: Int) {
-                    dealCardFunction(id, cause)
+                    dealCardFunction(id, cause, cardView)
                 }
             })).show()
     }
@@ -371,7 +402,7 @@ class NineBoxActivity : BaseActivity(), View.OnClickListener,
     /**
      * 处理卡片功能
      */
-    private fun dealCardFunction(functionId: Int, cause: String) {
+    private fun dealCardFunction(functionId: Int, cause: String, cardView: CardView) {
         val detailInDatabase = getDetailInDatabase(cause)
         val recordDetail = detailInDatabase?.get(0) as NineBoxDetailEntity
 
@@ -381,6 +412,7 @@ class NineBoxActivity : BaseActivity(), View.OnClickListener,
         DatabaseManager.instance.getDaoSession(this).nineBoxDetailEntityDao.insertOrReplaceInTx(
             recordDetail
         )
+        cardView.setNineBoxDetailEntity(recordDetail)
     }
 
     /**

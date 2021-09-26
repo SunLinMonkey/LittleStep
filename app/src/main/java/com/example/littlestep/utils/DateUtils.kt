@@ -16,10 +16,10 @@ import java.util.*
 class DateUtils {
     companion object {
 
-        val dateFormatOne = "YYYYMMDDHHmmss";
-        val dateFormatTwo = "YYYY-MM-DD HH:mm:ss";
-        val dateFormatThree = "YYYY-MM-DD";
-        val dateFormatFour = "YYYYMMDD";
+        val dateFormatOne = "yyyyMMDDHHmmss";
+        val dateFormatTwo = "yyyy-MM-DD HH:mm:ss";
+        val dateFormatThree = "yyyy-MM-DD";
+        val dateFormatFour = "yyyyMMDD";
 
         @JvmStatic
         open fun getDateNow(): String {
