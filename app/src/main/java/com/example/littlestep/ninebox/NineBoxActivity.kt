@@ -18,6 +18,7 @@ import com.example.littlestep.dao.entity.nineBox.NineBoxHolderEntity
 import com.example.littlestep.dao.entity.nineBox.NineBoxDetailEntity
 import com.example.littlestep.dao.entity.nineBox.NineBoxDetailEntityDao
 import com.example.littlestep.dao.entity.nineBox.NineBoxHolderEntityDao
+import com.example.littlestep.mvpBase.MvpActivity
 import com.example.littlestep.popwindow.NineBoxFuncAttachPopup
 import com.example.littlestep.popwindow.NineBoxFuncAttachPopup.OnClickTabListener
 import com.lxj.xpopup.XPopup
@@ -29,7 +30,8 @@ import java.util.*
  * Email:923998007@qq.com
  * @author lin
  */
-class NineBoxActivity : BaseActivity(), View.OnClickListener,
+class NineBoxActivity : MvpActivity<NineBoxContract.IPresenter>(), NineBoxContract.IView,
+    View.OnClickListener,
     CardView.OnCardViewFunctionClickListener {
 
 
@@ -433,5 +435,9 @@ class NineBoxActivity : BaseActivity(), View.OnClickListener,
             }
         }
         return NineBoxConstants.DetailStatus.DOING
+    }
+
+    override fun registerPresenter(): Class<out NineBoxContract.IPresenter> {
+        return NineBoxPresenter::class.java
     }
 }

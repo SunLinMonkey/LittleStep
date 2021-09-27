@@ -69,4 +69,5 @@ dependencies {
     //https://github.com/li-xiaojun/XPopup
     implementation 'com.github.li-xiaojun:XPopup:2.5.15'
 
+//    implementation 'com.github.cn-ljb:kotlin-mvp-lib:1.2.1'
 }
