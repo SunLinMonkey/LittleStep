@@ -3,22 +3,31 @@ package com.example.littlestep
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.bumptech.glide.Glide
+import com.example.littlestep.base.BaseActivity
 import com.example.littlestep.ninebox.NineBoxActivity
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
+import org.greenrobot.eventbus.EventBus
 
 /**
  * create on 2021/7/20 22:10
  * Email:923998007@qq.com
  * @author lin
  */
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+class MainActivity : BaseActivity() {
 
+    override fun initData() {
+
+    }
+
+    override fun initView() {
         requestPermissionsLocal()
+    }
+
+    override fun getLayoutRes(): Int {
+        return R.layout.activity_main
     }
 
     private fun requestPermissionsLocal() {
@@ -30,7 +39,7 @@ class MainActivity : AppCompatActivity() {
                 object : OnPermissionCallback {
                     override fun onGranted(permissions: MutableList<String>?, all: Boolean) {
                         if (all) {
-                            var intent: Intent =
+                            val intent: Intent =
                                 Intent(this@MainActivity, NineBoxActivity::class.java)
                             startActivity(intent)
                         }

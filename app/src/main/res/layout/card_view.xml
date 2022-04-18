@@ -26,7 +26,6 @@
         android:layout_height="match_parent"
         android:layout_above="@id/ibtn_funtion"
         android:layout_below="@id/tv_title_in_card"
-        android:layout_marginBottom="10dp"
         android:gravity="center"
         android:textColor="@color/white"
         android:textSize="20sp" />

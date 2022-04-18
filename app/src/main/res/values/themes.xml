@@ -12,5 +12,27 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+
+
+    </style>
+
+    <style name="FullScreen" parent="@style/Theme.LittleStep">
+        <!--无标题-->
+        <item name="android:windowNoTitle">true</item>
+        <!--无ActionBar-->
+        <item name="android:windowActionBar">false</item>
+        <!--全屏即无通知栏-->
+        <item name="android:windowFullscreen">true</item>
+        <!--是否有遮盖-->
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="statusBarColor" parent="Theme.AppCompat.Light.NoActionBar">
+        <!--设置为false，布局不会延伸到状态栏,造成重叠 -->
+        <item name="android:windowTranslucentStatus">false</item>
+        <!--设置为true，布局会延伸到状态栏,造成重叠-->
+<!--        <item name="android:windowTranslucentNavigation">false</item>-->
+        <!--Android 5.x开始须要把颜色设置为指定的颜色，不然导航栏会呈现系统默认的浅灰色-->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
     </style>
 </resources>

@@ -21,6 +21,7 @@ import com.example.littlestep.dao.entity.nineBox.NineBoxHolderEntityDao
 import com.example.littlestep.mvpBase.MvpActivity
 import com.example.littlestep.popwindow.NineBoxFuncAttachPopup
 import com.example.littlestep.popwindow.NineBoxFuncAttachPopup.OnClickTabListener
+import com.example.littlestep.utils.CommonUtils
 import com.lxj.xpopup.XPopup
 import es.dmoral.toasty.Toasty
 import java.util.*
@@ -262,6 +263,11 @@ class NineBoxActivity : MvpActivity<NineBoxContract.IPresenter>(), NineBoxContra
 
     override fun onClick(view: View) {
         Log.i("TAG", "点击事件")
+
+        if (CommonUtils.doubleClick()) {
+            //连点控制
+            return
+        }
         when (view.id) {
             R.id.view_today -> {
                 showRecordToday()

@@ -12,7 +12,6 @@ abstract class BaseMvpPresenter<out V : BaseMvpContract.IViewContract, out M : B
         mModel = registerModel().newInstance()
     }
 
-
     abstract fun registerModel(): Class<out M>
 
     fun getMvpView() = mMVPView!!

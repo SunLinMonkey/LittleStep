@@ -1,7 +1,12 @@
 package com.example.littlestep.base
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.view.Window
+import android.view.WindowInsets
+import android.view.WindowManager
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import butterknife.ButterKnife
 import butterknife.Unbinder
@@ -13,10 +18,11 @@ import butterknife.Unbinder
  */
 abstract class BaseActivity : AppCompatActivity() {
 
-    var butterKnifeBind: Unbinder? = null;
+    var butterKnifeBind: Unbinder? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportActionBar?.hide()
         setContentView(getLayoutRes())
         butterKnifeBind = ButterKnife.bind(this);
         initView()
