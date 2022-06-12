@@ -13,8 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/statusBarColor">
-        <activity android:name=".ninebox.InputActivity" />
-        <activity android:name=".ninebox.NineBoxActivity" />
+        <activity android:name="com.example.littlestep.ninebox.InputActivity" />
+        <activity android:name="com.example.littlestep.ninebox.NineBoxActivity" />
         <activity android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

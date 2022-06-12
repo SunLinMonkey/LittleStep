@@ -1,15 +1,14 @@
 package com.example.littlestep
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import com.bumptech.glide.Glide
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import butterknife.BindView
 import com.example.littlestep.base.BaseActivity
 import com.example.littlestep.ninebox.NineBoxActivity
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
-import org.greenrobot.eventbus.EventBus
 
 /**
  * create on 2021/7/20 22:10
@@ -17,6 +16,10 @@ import org.greenrobot.eventbus.EventBus
  * @author lin
  */
 class MainActivity : BaseActivity() {
+
+    @BindView(R.id.recyclerView)
+    lateinit var recyclerView: RecyclerView
+
 
     override fun initData() {
 
@@ -42,6 +45,7 @@ class MainActivity : BaseActivity() {
                             val intent: Intent =
                                 Intent(this@MainActivity, NineBoxActivity::class.java)
                             startActivity(intent)
+//                            initListButton();
                         }
                     }
 
@@ -49,6 +53,13 @@ class MainActivity : BaseActivity() {
                         super.onDenied(permissions, never)
                     }
                 })
+    }
+
+    private fun initListButton() {
+//        recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+//
+//        recyclerView.adapter =
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion ANDROID_COMPILESDKVERSION as int
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -16,8 +16,8 @@ android {
 
     defaultConfig {
         applicationId "com.example.littlestep"
-        minSdkVersion 23
-        targetSdkVersion 31
+        minSdkVersion ANDROID_MINSDKVERSION as int
+        targetSdkVersion ANDROID_TARGETSDKVERSION as int
         versionCode 1
         versionName "1.0"
 
@@ -35,45 +35,48 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = "$jvmTarget"
     }
 
 
 }
 
 dependencies {
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.3.2'
-    implementation 'androidx.appcompat:appcompat:1.3.1'
-    implementation 'com.google.android.material:material:1.4.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation "androidx.core:core-ktx:$VERSION_ANDROIDX_CORE_KTX"
+    implementation "androidx.appcompat:appcompat:$VERSION_ANDROIDX_APPCOMPAT"
+    implementation "com.google.android.material:material:$VERSION_MATERIAL"
+    implementation "androidx.constraintlayout:constraintlayout:$VERSION_CONSTRAINTLAYOUT"
+    testImplementation "junit:junit:$VERSION_JUNIT"
+    androidTestImplementation "androidx.test.ext:junit:$VERSION_ANDROIDX_JUNIT"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$VERSION_ESPRESSO"
 
-    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation "androidx.recyclerview:recyclerview:$VERSION_RECYCLERVIEW"
 
-    implementation 'com.jakewharton:butterknife:10.2.3'
-    kapt 'com.jakewharton:butterknife-compiler:10.2.3'
+    implementation "com.jakewharton:butterknife:$VERSION_BUTTERKNIFE"
+    kapt "com.jakewharton:butterknife-compiler:$VERSION_BUTTERKNIFE_COMPILER"
 
-    implementation 'org.greenrobot:greendao:3.3.0' // add library
-    implementation 'org.greenrobot:greendao-generator:3.3.0'
-    implementation 'io.github.yuweiguocn:GreenDaoUpgradeHelper:v2.2.1'
+    implementation "org.greenrobot:greendao:$VERSION_GREENDAO" // add library
+    implementation "org.greenrobot:greendao-generator:$VERSION_GREENDAO_GENERATOR"
+    implementation "io.github.yuweiguocn:GreenDaoUpgradeHelper:$VERSION_GREENDAOUPGRADEHELPER"
 
     //https://github.com/getActivity/XXPermissions
-    implementation 'com.github.getActivity:XXPermissions:12.0'
+    implementation "com.github.getActivity:XXPermissions:$VERSION_XXPERMISSIONS"
 
     //https://github.com/GrenderG/Toasty
-    implementation 'com.github.GrenderG:Toasty:1.5.0'
+    implementation "com.github.GrenderG:Toasty:$VERSION_TOASTY"
 
     //https://github.com/li-xiaojun/XPopup
-    implementation 'com.github.li-xiaojun:XPopup:2.5.15'
+    implementation "com.github.li-xiaojun:XPopup:$VERSION_XPOPUP"
 
-    implementation("org.greenrobot:eventbus:3.3.1")
-//    implementation 'com.github.cn-ljb:kotlin-mvp-lib:1.2.1'
+    implementation("org.greenrobot:eventbus:$VERSION_EVENTBUS")
+//    implementation "com.github.cn-ljb:kotlin-mvp-lib:1.2.1"
 
-    implementation 'com.github.bumptech.glide:glide:4.13.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.0'
+    implementation "com.github.bumptech.glide:glide:$VERSION_GLIDE"
+    annotationProcessor "com.github.bumptech.glide:compiler:$VERSION_GLIDE_COMPILER"
 
-//    compile 'xiaofei.library:hermes-eventbus:0.3.0'
+    implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:$VERSION_BASERECYCLERVIEWADAPTERHELPER"
+
+//    compile "xiaofei.library:hermes-eventbus:0.3.0"
 }

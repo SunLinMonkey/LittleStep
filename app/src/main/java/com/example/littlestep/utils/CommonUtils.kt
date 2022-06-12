@@ -15,6 +15,7 @@ class CommonUtils {
         /**
          * 是否连点了。
          */
+        @JvmStatic
         open fun doubleClick(): Boolean {
             return doubleClick(500);
         }
@@ -22,6 +23,7 @@ class CommonUtils {
         /**
          * 是否连点了。
          */
+        @JvmStatic
         open fun doubleClick(duringTime: Long): Boolean {
             val currentTimeMillis = System.currentTimeMillis();
             if (currentTimeMillis - lastClickTime < duringTime) {

@@ -8,15 +8,14 @@ import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import butterknife.BindView
 import butterknife.OnClick
-import com.example.littlestep.base.BaseActivity
 import com.example.littlestep.R
 import com.example.littlestep.common.Business
 import com.example.littlestep.common.NineBoxConstants
 import com.example.littlestep.common.RecordKeyMaker
 import com.example.littlestep.dao.DatabaseManager
-import com.example.littlestep.dao.entity.nineBox.NineBoxHolderEntity
 import com.example.littlestep.dao.entity.nineBox.NineBoxDetailEntity
 import com.example.littlestep.dao.entity.nineBox.NineBoxDetailEntityDao
+import com.example.littlestep.dao.entity.nineBox.NineBoxHolderEntity
 import com.example.littlestep.dao.entity.nineBox.NineBoxHolderEntityDao
 import com.example.littlestep.mvpBase.MvpActivity
 import com.example.littlestep.popwindow.NineBoxFuncAttachPopup
